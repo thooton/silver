@@ -59,15 +59,6 @@ def get_batch():
     batch = batch.reshape(conf.device_count, conf.device_batch_size, conf.seq_len)
     return jnp.array(batch)
 
-if conf.lr_scheduling:
-    schedule = optax.warmup_cosine_decay_schedule(
-      init_value=0.0,
-      peak_value=conf.lr,
-      warmup_steps=conf.lr_warmup_steps,
-      decay_steps=conf.lr_decay_steps,
-      end_value=conf.lr / 10,
-    )
-
 optimizer = optax.chain(
     optax.clip(conf.grad_clip),
     optax.lion(
