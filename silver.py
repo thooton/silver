@@ -358,7 +358,7 @@ class ShortMemFFN(nn.Module):
         k = k.astype(jnp.float32)
         k1, k2 = jnp.split(k, 2, axis=-1)
         k = jax.lax.complex(k1, k2)
-        k /= jax.lax.cummax(k, axis=len(k.shape)-2)
+        k /= jax.lax.cummax(jnp.abs(k), axis=len(k.shape)-2)
         k = jnp.cumprod(k, axis=-2)
         k = jnp.concatenate([jnp.real(k), jnp.imag(k)], axis=-1)
         k = k.astype(self.dtype)
