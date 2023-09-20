@@ -354,7 +354,7 @@ class ShortMemFFN(nn.Module):
         rk = x @ self.wrk
         r = rk[..., :self.model_dim]
         k = rk[..., self.model_dim:]
-        k = jnp.square(nn.relu(k))
+        k = nn.sigmoid(jnp.square(nn.relu(k)))
         k = k.astype(jnp.float32)
         k1, k2 = jnp.split(k, 2, axis=-1)
         k = jax.lax.complex(k1, k2)
