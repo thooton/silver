@@ -10,6 +10,8 @@ import silver
 from flax.training import checkpoints
 flax.config.update("flax_use_orbax_checkpointing", False)
 
+jax.distributed.initialize()
+
 conf = type("", (), dict(
     model_dim=768,
     ff_dim=2688,
